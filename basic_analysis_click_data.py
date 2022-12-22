@@ -13,14 +13,15 @@ df_filtered_clicks = pd.read_csv(path_filtered_clicks, sep=',')
 df_filtered_clicks_new = pd.read_csv(path_filtered_clicks_new, sep=',')
 df_filtered_clicks_old = pd.read_csv(path_filtered_clicks_old, sep=',')
 df_otree = pd.read_csv(path_otree, sep=',')
+user_ids_new_version = np.unique(np.array(df_filtered_clicks_new['player_id']))
 df_otree_passed = df_otree[df_otree['participant._current_page_name']=='Closing_passed']
 df_otree_passed = df_otree_passed[df_otree_passed['session.code'] == '7ymv81x6']
+df_otree_passed_new = df_otree_passed[df_otree_passed['participant.unique_id'].isin(user_ids_new_version)]
 print(df_otree_passed.shape)
 
 num_of_unique_user = len(np.unique(np.array(df_filtered_clicks['player_id'])))
 num_of_unique_user_new = len(np.unique(np.array(df_filtered_clicks_new['player_id'])))
 num_of_unique_user_old = len(np.unique(np.array(df_filtered_clicks_old['player_id'])))
-
 print(num_of_unique_user, num_of_unique_user_new, num_of_unique_user_old)
 userids_use_decinc_btns = np.unique(np.array(df_filtered_clicks_new[df_filtered_clicks_new['identifier_simple'].
                                                      isin(['Increase', 'Decrease'])]['player_id']))
@@ -36,9 +37,9 @@ num_of_users_submitting_total = len(np.unique(np.array(df_filtered_clicks.loc[df
 print(num_of_user_submitting_old, num_of_user_submitting_new, num_of_users_submitting_total)
 
 df_otree_user_decins_btns = df_otree[df_otree['inflation_calculator.1.player.unique_id'].isin(userids_use_decinc_btns)]
-df_otree_user_no_decins_btns = df_otree[~df_otree['inflation_calculator.1.player.unique_id'].isin(userids_use_decinc_btns)]
+df_otree_user_no_decins_btns = df_otree_passed_new[~df_otree_passed_new['inflation_calculator.1.player.unique_id'].isin(userids_use_decinc_btns)]
 print(df_otree_user_no_decins_btns.shape)
-path_to_save_otree_filtered = 'Data/oTree_data_only_users_decinc_btns.csv'
-path_to_save_otree_filtered_ii = 'Data/oTree_data_only_users_no_decinc_btns.csv'
-df_otree_user_decins_btns.to_csv(path_to_save_otree_filtered, index=False, sep=',')
-df_otree_user_no_decins_btns.to_csv(path_to_save_otree_filtered_ii, index=False, sep=',')
+#path_to_save_otree_filtered = 'Data/oTree_data_only_users_decinc_btns.csv'
+#path_to_save_otree_filtered_ii = 'Data/oTree_data_only_users_no_decinc_btns.csv'
+#df_otree_user_decins_btns.to_csv(path_to_save_otree_filtered, index=False, sep=',')
+#df_otree_user_no_decins_btns.to_csv(path_to_save_otree_filtered_ii, index=False, sep=',')
