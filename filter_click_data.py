@@ -11,9 +11,9 @@ otree_df = pd.read_csv(otree_data_path, sep=',')
 
 #filter all participants who passed the test (in the otree df)
 otree_df_closing_passed = otree_df[otree_df['participant._current_page_name'] == 'Closing_passed']
-
+otree_df_closing_passed = otree_df_closing_passed[otree_df_closing_passed['session.code'] == '7ymv81x6']
 all_ids_passed = np.array(otree_df_closing_passed['participant.unique_id'])
-
+print(all_ids_passed[:1])
 #using the filter from above to filter all passing particapants in the backend df
 click_df_passed = click_df.loc[click_df['player_id'].isin(all_ids_passed)]
 #changing the time from utc to normal timestamp
