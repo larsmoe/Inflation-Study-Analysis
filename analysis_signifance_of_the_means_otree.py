@@ -59,8 +59,8 @@ for i in range(num_of_constructs):
     for m in range(len(arrays_to_test_against[0])):
         arr1 = construct_arrays[arrays_to_test_against[0][m]]
         arr2 = construct_arrays[arrays_to_test_against[1][m]]
-        teststat, p_val = ttest_ind(a=arr1, b=arr2,  equal_var=False) #alternative='greater',
-        stat_mwu, p_val_mwu = mannwhitneyu(x=arr1, y=arr2) #, alternative='greater'
+        teststat, p_val = ttest_ind(a=arr2, b=arr1, alternative='less', equal_var=False) #alternative='greater',
+        stat_mwu, p_val_mwu = mannwhitneyu(x=arr2, y=arr1, alternative='less') #, alternative='greater'
         construct_eval_array[3*(len(construct_arrays))+m] = p_val
         construct_eval_array[3*(len(construct_arrays))+len(arrays_to_test_against[0])+m] = p_val_mwu
     df_stat = df_stat.assign(**{f'Konstrukt {i+1}':pd.Series(construct_eval_array).values})
